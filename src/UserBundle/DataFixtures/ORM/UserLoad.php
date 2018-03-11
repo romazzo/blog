@@ -20,26 +20,34 @@ class UserLoad implements FixtureInterface, ContainerAwareInterface{
     public function load(ObjectManager $manager) {
 
         $roleRepo = $manager->getRepository(Role::class);
+
         $role = $roleRepo->findOneByRole('USER_ROLE');
-
-
+        /*if(!$role)
+            return;*/
         $user = new User();
         $encoder = $this->container->get('security.password_encoder');
         $password =  $encoder->encodePassword($user, '123456');
+
         $user->setPassword($password);
-        $user->addRole($role);
+
+        //$user->addRole($role);
+        //var_dump($role);die();
         $user->setEmail('rs@i.com');
         $user->setUsername('admin');
-        $user->setCreated(new \DateTime());
-        $user->setUpdated(new \DateTime());
+        //var_dump($user);die();
+
+        $manager->persist($user);
+        $manager->flush();
 
         $userAccount = new UserAccount();
         $userAccount->setFirstName('John')->setLastName('Doe');
         $userAccount->setBirthday( new \DateTime() );
         $userAccount->setGender('m');
+        $userAccount->setUser($user);
 
-        $manager->persist($user);
+        $manager->persist($userAccount);
         $manager->flush();
+
     }
 
 

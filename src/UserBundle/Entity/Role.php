@@ -106,9 +106,9 @@ class Role implements RoleInterface
     }
 
     /**
-     * Add users
+     * Add user
      *
-     * @param \UserBundle\Entity\User $users
+     * @param \UserBundle\Entity\User $user
      * @return Role
      */
     public function addUser(\UserBundle\Entity\User $user)
@@ -119,9 +119,9 @@ class Role implements RoleInterface
     }
 
     /**
-     * Remove users
+     * Remove user
      *
-     * @param \UserBundle\Entity\User $users
+     * @param \UserBundle\Entity\User $user
      */
     public function removeUser(\UserBundle\Entity\User $user)
     {

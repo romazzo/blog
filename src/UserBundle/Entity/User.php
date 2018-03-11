@@ -4,7 +4,7 @@ namespace UserBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
-use \Datetime;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -84,10 +84,11 @@ class User implements \Serializable, UserInterface
         $this->roles = new ArrayCollection();
         $this->salt = md5( uniqid(null, TRUE) );
         $this->username = md5( uniqid(null, TRUE) );
-        $this->created = new \DataTime();
-        $this->updated = new \DataTime();
+        $this->created = new \DateTime();
+        $this->updated = new \DateTime();
         $this->status = 1;
     }
+
 
     public function serialize(){
         return serialize([$this->id]);
@@ -274,9 +275,9 @@ class User implements \Serializable, UserInterface
     }
 
     /**
-     * Add roles
+     * Add role
      *
-     * @param \UserBundle\Entity\Role $roles
+     * @param \UserBundle\Entity\Role $role
      * @return User
      */
     public function addRole(\UserBundle\Entity\Role $role)
@@ -287,9 +288,9 @@ class User implements \Serializable, UserInterface
     }
 
     /**
-     * Remove roles
+     * Remove role
      *
-     * @param \UserBundle\Entity\Role $roles
+     * @param \UserBundle\Entity\Role $role
      */
     public function removeRole(\UserBundle\Entity\Role $role)
     {

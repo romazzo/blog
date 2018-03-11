@@ -49,11 +49,11 @@ class UserAccount
      */
     private $gender;
 
-    private $entities;
+    //private $entities;
 
 
     /**
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\OneToOne(targetEntity="User", inversedBy="accounts")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
@@ -214,11 +214,11 @@ class UserAccount
         return $this;
     }
 
-    public function setEntities($entity, $machine_name){
+    /*public function setEntities($entity, $machine_name){
         $this->entities[$machine_name] = $entity;
     }
 
     public function getEntities($machine_name){
         return isset($this->entities[$machine_name]) ? $this->entities[$machine_name] : NULL;
-    }
+    }*/
 }

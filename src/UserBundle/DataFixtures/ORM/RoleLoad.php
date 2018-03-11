@@ -6,25 +6,28 @@ namespace UserBundle\DataFixtures\ORM;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use UserBundle\Entity\Role;
+use Doctrine\Common\DataFixtures\FixtureInterface;
 
 
-class RoleLoad extends Fixture{
+class RoleLoad implements FixtureInterface{
 
     public function load(ObjectManager $manager)
     {
         $roleRepo = $manager->getRepository(Role::class);
-        $role = $roleRepo->findByRole('USER_ROLE');
-
+        $role = $roleRepo->findByRole('ROLE_USER');
+        //var_dump($role);die();
         if(!$role){
             $role = new Role();
-            $role->setName('USER_ROLE');
-            $role->setRole('USER_ROLE');
+
+            $role->setName('ROLE_USER');
+            $role->setRole('ROLE_USER');
+
             $manager->persist($role);
             $manager->flush();
         }
     }
 
     public function getOrder(){
-        return -99999;
+        return 1;
     }
 } 

@@ -3,6 +3,8 @@
 namespace UserBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="UserBundle\Repository\UserRepository")
  */
-class User
+class User implements \Serializable, UserInterface
 {
     /**
      * @var int
@@ -73,24 +75,27 @@ class User
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\ManytoMany(targetEntity="Role", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
      * @ORM\JoinTable(name="users_roles")
      */
     private $roles;
 
     public function  __construct(){
         $this->roles = new ArrayCollection();
-        $this->created = new \DataTime();
-        $this->updated = new \DataTime();
+        $this->salt = md5( uniqid(null, TRUE) );
+        $this->username = md5( uniqid(null, TRUE) );
+        $this->created = new \DateTime();
+        $this->updated = new \DateTime();
         $this->status = 1;
     }
+
 
     public function serialize(){
         return serialize([$this->id]);
     }
 
-    public function unserialize($serialize){
-        list($this->id) = $this->unserialize($serialize);
+    public function unserialize($serialized){
+        list($this->id) = $this->unserialize($serialized);
     }
 
     public function getRoles()
@@ -270,25 +275,36 @@ class User
     }
 
     /**
-     * Add roles
+     * Add role
      *
-     * @param \UserBundle\Entity\Role $roles
+     * @param \UserBundle\Entity\Role $role
      * @return User
      */
-    public function addRole(\UserBundle\Entity\Role $roles)
+    public function addRole(\UserBundle\Entity\Role $role)
     {
-        $this->roles[] = $roles;
+        $this->roles[] = $role;
 
         return $this;
     }
 
     /**
-     * Remove roles
+     * Remove role
      *
-     * @param \UserBundle\Entity\Role $roles
+     * @param \UserBundle\Entity\Role $role
      */
-    public function removeRole(\UserBundle\Entity\Role $roles)
+    public function removeRole(\UserBundle\Entity\Role $role)
     {
-        $this->roles->removeElement($roles);
+        $this->roles->removeElement($role);
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }

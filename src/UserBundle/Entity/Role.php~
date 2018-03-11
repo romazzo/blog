@@ -3,6 +3,8 @@
 namespace UserBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\Role\RoleInterface;
+use \Datetime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="role")
  * @ORM\Entity(repositoryClass="UserBundle\Repository\RoleRepository")
  */
-class Role
+class Role implements RoleInterface
 {
     /**
      * @var int
@@ -38,7 +40,7 @@ class Role
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\ManytoMany(targetEntity="User", mappedBy="roles")
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="roles")
      */
     private $users;
 
@@ -104,26 +106,26 @@ class Role
     }
 
     /**
-     * Add users
+     * Add user
      *
-     * @param \UserBundle\Entity\User $users
+     * @param \UserBundle\Entity\User $user
      * @return Role
      */
-    public function addUser(\UserBundle\Entity\User $users)
+    public function addUser(\UserBundle\Entity\User $user)
     {
-        $this->users[] = $users;
+        $this->users[] = $user;
 
         return $this;
     }
 
     /**
-     * Remove users
+     * Remove user
      *
-     * @param \UserBundle\Entity\User $users
+     * @param \UserBundle\Entity\User $user
      */
-    public function removeUser(\UserBundle\Entity\User $users)
+    public function removeUser(\UserBundle\Entity\User $user)
     {
-        $this->users->removeElement($users);
+        $this->users->removeElement($user);
     }
 
     /**
