@@ -41,7 +41,9 @@ class User implements \Serializable, UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=40)
+     * Для bcrypt строки 40 символов маловато будет, давай 255
+     *
+     * @ORM\Column(name="password", type="string", length=255)
      */
     private $password;
 
@@ -95,7 +97,9 @@ class User implements \Serializable, UserInterface
     }
 
     public function unserialize($serialized){
-        list($this->id) = $this->unserialize($serialized);
+        //Здесь была рекурсия  $this->unserialize($serialized);
+        //Что по сути могло вызывать проблему
+        list($this->id) = unserialize($serialized);
     }
 
     public function getRoles()
