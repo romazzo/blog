@@ -3,7 +3,7 @@
 security:
     encoders:
         UserBundle\Entity\User:
-            algorithm: bcrypt
+            algorithm: sha512
             encode_as_base64: false
             iterations: 512
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
@@ -13,6 +13,9 @@ security:
         main:
             entity:
                 class: UserBundle\Entity\User
+                #property: username
+                #property: email
+
 
 
     firewalls:
@@ -23,7 +26,7 @@ security:
 
         main:
             anonymous: ~
-            #http_basic: ~
+            http_basic: ~
             provider: main
             form_login:
                 login_path: /login

@@ -41,7 +41,7 @@ class User implements \Serializable, UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=40)
+     * @ORM\Column(name="password", type="string", length=255)
      */
     private $password;
 
@@ -80,9 +80,15 @@ class User implements \Serializable, UserInterface
      */
     private $roles;
 
+    /**
+     * @var
+     * @ORM\OneToOne(targetEntity="UserAccount", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $account;
+
     public function  __construct(){
         $this->roles = new ArrayCollection();
-        $this->salt = md5( uniqid(null, TRUE) );
+        $this->salt = md5( uniqid() );
         $this->username = md5( uniqid(null, TRUE) );
         $this->created = new \DateTime();
         $this->updated = new \DateTime();
@@ -91,11 +97,14 @@ class User implements \Serializable, UserInterface
 
 
     public function serialize(){
-        return serialize([$this->id]);
+        return serialize(array(
+            $this->id
+        ));
     }
 
     public function unserialize($serialized){
-        list($this->id) = $this->unserialize($serialized);
+
+        list($this->id) = unserialize($serialized);
     }
 
     public function getRoles()
@@ -280,10 +289,16 @@ class User implements \Serializable, UserInterface
      * @param \UserBundle\Entity\Role $role
      * @return User
      */
-    public function addRole(\UserBundle\Entity\Role $role)
+    /*public function addRole(\UserBundle\Entity\Role $role)
     {
         $this->roles[] = $role;
 
+        return $this;
+    }*/
+
+    public function addRole(Role $role)
+    {
+        $this->roles->add($role);
         return $this;
     }
 
@@ -306,5 +321,29 @@ class User implements \Serializable, UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * Set account
+     *
+     * @param \UserBundle\Entity\UserAccunt $account
+     * @return User
+     */
+    public function setAccount(\UserBundle\Entity\UserAccount $account = null)
+    {
+        $this->account = $account;
+        $account->setUser($this);
+
+        return $this;
+    }
+
+    /**
+     * Get account
+     *
+     * @return \UserBundle\Entity\UserAccunt 
+     */
+    public function getAccount()
+    {
+        return $this->account;
     }
 }

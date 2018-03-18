@@ -48,12 +48,13 @@ class UserAccount
      * @ORM\Column(name="gender", type="string", length=255)
      */
     private $gender;
+    //private $region;
 
-    //private $entities;
+
 
 
     /**
-     * @ORM\OneToOne(targetEntity="User", inversedBy="accounts")
+     * @ORM\OneToOne(targetEntity="User", inversedBy="account")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;

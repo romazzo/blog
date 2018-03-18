@@ -2,7 +2,7 @@
 
 
 namespace UserBundle\DataFixtures\ORM;
-//use CoreBundle\Core\Core;
+
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -16,23 +16,21 @@ class UserLoad implements FixtureInterface, ContainerAwareInterface{
 
     private $container;
 
-
     public function load(ObjectManager $manager) {
 
-        $roleRepo = $manager->getRepository(Role::class);
+        $roleRepo = $manager->getRepository('UserBundle:Role');
 
         $role = $roleRepo->findOneByRole('USER_ROLE');
-        /*if(!$role)
-            return;*/
+
         $user = new User();
         $encoder = $this->container->get('security.password_encoder');
-        $password =  $encoder->encodePassword($user, '123456');
+        $password =  $encoder->encodePassword($user, '1');
 
         $user->setPassword($password);
 
         //$user->addRole($role);
         //var_dump($role);die();
-        $user->setEmail('rs@i.com');
+        $user->setEmail('rs@i.ua');
         $user->setUsername('admin');
         //var_dump($user);die();
 
@@ -49,8 +47,6 @@ class UserLoad implements FixtureInterface, ContainerAwareInterface{
         $manager->flush();
 
     }
-
-
 
     public function getOrder(){
         return 2;
