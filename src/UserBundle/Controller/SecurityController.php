@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -42,7 +43,7 @@ class SecurityController extends Controller
 
     public function registerAction(Request $request){
 
-        $registerModel = new RegisterUserModel();
+        $registerModel = $this->get('user.model');
         $form = $this->createForm(new UserAccountType(), $registerModel);
         $form->handleRequest($request);
         if($form->isSubmitted()){

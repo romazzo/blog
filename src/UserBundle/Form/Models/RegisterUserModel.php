@@ -17,7 +17,8 @@ use UserBundle\Entity\UserAccount;
  */
 class RegisterUserModel{
 
-    private $container;
+    //если есть гетеры и сеттеры то свойства положено делать приватными
+    private $username;
 
     public $firstName;
 
@@ -37,6 +38,23 @@ class RegisterUserModel{
     {
         $this->encoder = $encoder;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param mixed $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
 
     /**
      * @param mixed $birthday
@@ -143,13 +161,10 @@ class RegisterUserModel{
         $account->setGender($this->gender);
         $user->setEmail($this->email);
         $user->setAccount($account);
-
+        $user->setUsername($this->username);
 
         //$encoder = $this->container->get('security.password_encoder');
         $password =  $this->encoder->encodePassword($user, $this->password);
-
-        $user->setPassword($password);
-
 
         $user->setPassword($password);
         return $user;

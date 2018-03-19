@@ -2,3 +2,7 @@ services:
 #    user.example:
 #        class: UserBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+  user.model:
+    class: UserBundle\Form\Models\RegisterUserModel
+    arguments: ['@security.password_encoder']

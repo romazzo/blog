@@ -89,7 +89,6 @@ class User implements \Serializable, UserInterface
     public function  __construct(){
         $this->roles = new ArrayCollection();
         $this->salt = md5( uniqid() );
-        $this->username = md5( uniqid(null, TRUE) );
         $this->created = new \DateTime();
         $this->updated = new \DateTime();
         $this->status = 1;
@@ -103,7 +102,6 @@ class User implements \Serializable, UserInterface
     }
 
     public function unserialize($serialized){
-
         list($this->id) = unserialize($serialized);
     }
 
