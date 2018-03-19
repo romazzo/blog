@@ -102,7 +102,6 @@ class User implements \Serializable, UserInterface
     }
 
     public function unserialize($serialized){
-
         list($this->id) = unserialize($serialized);
     }
 
