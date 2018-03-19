@@ -24,6 +24,7 @@ class UserAccountType extends AbstractType
     {
         $builder->add('firstName', new TextType(),['label' => 'First Name'])
                 ->add('lastName', new TextType(),['label' => 'Last Name'])
+                ->add('username', new TextType(),['label' => 'Username'])
                 ->add('email', new RepeatedType(), [
                     'type' => new EmailType(),
                     'invalid_message' => 'The email add address invalid.',
